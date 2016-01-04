@@ -1,0 +1,23 @@
+*, *:before, *:after {
+  -moz-box-sizing: border-box; 
+  -webkit-box-sizing: border-box; 
+  box-sizing: border-box;
+}
+
+body {
+  @extend .container;
+  font-size: 16px;
+  font-weight: 300;
+  color: $neutral-3;
+  font-family: Roboto;
+  background-color: white;
+}
+
+a {
+  color: $brand-3;
+  text-decoration: none;
+
+  &:hover {
+    color: $accent-3;
+  }
+}

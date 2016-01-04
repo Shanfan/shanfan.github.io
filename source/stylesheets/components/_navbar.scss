@@ -1,0 +1,48 @@
+nav {
+  $navbar-height: 120px;
+
+  color: $neutral-6;
+  width: 100%;
+  height: $navbar-height;
+  margin-top: $navbar-height/2;
+
+  .logo img{
+    width: $navbar-height;
+    height: $navbar-height;
+    transition: all 0.25s;
+
+    &:hover {
+      opacity: 0.8;
+      transition: all 0.25s;
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    height: $navbar-height;
+    list-style: none;
+
+    li {
+      margin-right: 6em;
+      transition: all .3s;
+      float: left;
+      height: $navbar-height;
+      line-height: $navbar-height;
+      overflow: hidden;
+      text-transform: uppercase;
+      a {
+        color: $neutral-6;
+      }
+      a:hover, a:active, &.active {
+        color: $neutral-1;
+      }
+    }
+
+    &:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  }
+}
