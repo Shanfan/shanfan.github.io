@@ -46,3 +46,9 @@ nav {
     }
   }
 }
+
+@media #{$medium-and-down} {
+  nav ul li {
+    float: none;
+  }
+}
