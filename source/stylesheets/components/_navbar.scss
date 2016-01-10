@@ -8,7 +8,8 @@ nav {
 
   .logo img{
     width: $navbar-height;
-    height: $navbar-height;
+    height: 100%;
+    text-align: left;
     transition: all 0.25s;
 
     &:hover {
@@ -24,9 +25,11 @@ nav {
     list-style: none;
 
     li {
-      margin-right: 6em;
+      // margin-right: 6em;
       transition: all .3s;
       float: left;
+      width: 25%;
+      text-align: center;
       height: $navbar-height;
       line-height: $navbar-height;
       overflow: hidden;
@@ -47,8 +50,16 @@ nav {
   }
 }
 
-@media #{$medium-and-down} {
-  nav ul li {
-    float: none;
-  }
-}
+// @media #{$medium-and-down} {
+//   nav {
+//     .logo img {
+//       height: 100%;
+//     } 
+
+//     ul li {
+//       width: 25%;
+//       margin: 0;
+//       text-align: center;
+//     }
+//   }
+// }

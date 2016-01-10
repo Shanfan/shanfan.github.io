@@ -1465,43 +1465,41 @@ nav {
   /* line 9, /Users/shuang/workspace/shanfan.github.io/source/stylesheets/components/_navbar.scss */
   nav .logo img {
     width: 120px;
-    height: 120px;
+    height: 100%;
+    text-align: left;
     transition: all 0.25s; }
-    /* line 14, /Users/shuang/workspace/shanfan.github.io/source/stylesheets/components/_navbar.scss */
+    /* line 15, /Users/shuang/workspace/shanfan.github.io/source/stylesheets/components/_navbar.scss */
     nav .logo img:hover {
       opacity: 0.8;
       transition: all 0.25s; }
-  /* line 20, /Users/shuang/workspace/shanfan.github.io/source/stylesheets/components/_navbar.scss */
+  /* line 21, /Users/shuang/workspace/shanfan.github.io/source/stylesheets/components/_navbar.scss */
   nav ul {
     margin: 0;
     padding: 0;
     height: 120px;
     list-style: none; }
-    /* line 26, /Users/shuang/workspace/shanfan.github.io/source/stylesheets/components/_navbar.scss */
+    /* line 27, /Users/shuang/workspace/shanfan.github.io/source/stylesheets/components/_navbar.scss */
     nav ul li {
-      margin-right: 6em;
       transition: all .3s;
       float: left;
+      width: 25%;
+      text-align: center;
       height: 120px;
       line-height: 120px;
       overflow: hidden;
       text-transform: uppercase; }
-      /* line 34, /Users/shuang/workspace/shanfan.github.io/source/stylesheets/components/_navbar.scss */
+      /* line 37, /Users/shuang/workspace/shanfan.github.io/source/stylesheets/components/_navbar.scss */
       nav ul li a {
         color: #c3c5c7; }
-      /* line 37, /Users/shuang/workspace/shanfan.github.io/source/stylesheets/components/_navbar.scss */
+      /* line 40, /Users/shuang/workspace/shanfan.github.io/source/stylesheets/components/_navbar.scss */
       nav ul li a:hover, nav ul li a:active, nav ul li.active {
         color: #282828; }
-    /* line 42, /Users/shuang/workspace/shanfan.github.io/source/stylesheets/components/_navbar.scss */
+    /* line 45, /Users/shuang/workspace/shanfan.github.io/source/stylesheets/components/_navbar.scss */
     nav ul:after {
       content: "";
       display: table;
       clear: both; }
 
-@media only screen and (max-width: 992px) {
-  /* line 51, /Users/shuang/workspace/shanfan.github.io/source/stylesheets/components/_navbar.scss */
-  nav ul li {
-    float: none; } }
 /*--------------------
   Tables
 ---------------------*/
