@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>prototypes</title>
+    <style>
+        :root {
+            --unaffiliated: #fff;
+            --federalist: #cebde0;
+            --democratic-republican: #b792e4;
+            --whig: #868ddb;
+            --democratic: #5963e2;
+            --republican: #d03dac;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #28304D;
+            overflow: hidden;
+        }
+
+        /* Time Points Controller */
+
+        .timePts {
+            display: flex;
+            width: 95vw;
+            height: 50px;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+        }
+
+        .timePts>div {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 0 0.1rem;
+            color: rgb(236, 186, 34);
+            transition: all 0.1s linear;
+        }
+
+        .timePts>div:hover {
+            cursor: pointer;
+            text-shadow: 0 0 5px rgb(236, 186, 34);
+            font-size: 5em;
+            color: rgb(240, 213, 58);
+            border-bottom: rgb(236, 186, 34) 1px solid;
+        }
+
+        .timePts>div:has(+ div:hover),
+        .timePts>div:hover+div {
+            font-size: 3em;
+        }
+
+        .timePts>div:has(+ div + div:hover),
+        .timePts>div:hover+div+div {
+            font-size: 2em;
+        }
+
+        .timePts>div>span {
+            display: none;
+            position: absolute;
+            font-size: 1rem;
+            top: -1.2em;
+        }
+
+        .timePts>div:hover>span {
+            display: block;
+            border-top: rgb(236, 186, 34) 1px solid;
+        }
+
+        .timePts>.selected {
+            /* font-size: 12px; */
+        }
+
+        /* End of Time Points Controller */
+
+        /* Begin Politics */
+        #presidentGraph {
+            display: flex;
+            width: 95vw;
+            height: 300px;
+            align-items: start;
+            justify-content: center;
+            overflow-x: auto;
+        }
+
+        #presidentGraph>div {
+            position: relative;
+            width: 60px;
+            height: 10px;
+            border-right: 1px solid #28304D;
+            border-left: 1px solid #28304D;
+        }
+
+        #presidentGraph>div.one-term {
+            width: 30px;
+        }
+
+        .unaffiliated {
+            background-color: white;
+        }
+
+        .federalist {
+            background-color: #cebde0;
+        }
+
+        .democratic-republican {
+            background-color: #b792e4;
+        }
+
+        .whig {
+            background-color: #868ddb;
+        }
+
+        .democratic {
+            background-color: #5963E2;
+        }
+
+        .republican {
+            background: #D03DAC;
+        }
+
+        .democratic-republican.national-republican {
+            background: linear-gradient(60deg, #b792e4 0 49%, #5D2FD8 50% 100%);
+        }
+
+        #presidentGraph>div.selected {
+            height: 20px;
+        }
+
+        .info-card {
+            position: absolute;
+            top: 20px;
+            left: -464px;
+            width: 648px;
+            padding: 1em;
+            color: rgb(163, 171, 201);
+            text-align: center;
+            border-bottom: 2px solid #5D2FD8;
+            border-top: 2px solid #5D2FD8;
+            background-color: rgb(35, 42, 68);
+        }
+
+        .info-card::before {
+            content: 'b: 1767';
+            font-size: 12px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .info-card::after {
+            content: 'd: 1848';
+            font-size: 12px;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .info-card>.header {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .info-card>.info {
+            font-size: 12px;
+            margin: 0;
+        }
+
+        .info-card>.profile-img {
+            border: 3px solid white;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto;
+            background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/John_Quincy_Adams_by_Charles_Osgood.jpg/300px-John_Quincy_Adams_by_Charles_Osgood.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        /* End of Politics */
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="timePts">
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div class="selected">&#x25CF;<span>1775</span></div>
+            <div class="selected">&#x25CF;<span>1775</span></div>
+            <div class="selected">&#x25CF;<span>1775</span></div>
+            <div class="selected">&#x25CF;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+        </div>
+        <div id="presidentGraph">
+            <div class="unaffiliated"></div>
+            <div class="one-term federalist"></div>
+            <div class="democratic-republican"></div>
+            <div class="democratic-republican"></div>
+            <div class="democratic-republican"></div>
+            <div class="selected one-term democratic-republican national-republican">
+                <div class="info-card">
+                    <div class="profile-img"></div>
+                    <p class="header" data-birth-death="1767-1848">John Quincy Adams</p>
+                    <p class="info">In Office: 1825-1829<br>Party: Democratic-Republican, National Republican</p>
+                </div>
+            </div>
+            <div class="democratic"></div>
+            <div class="one-term democratic"></div>
+            <div class="one-term whig"></div>
+            <div class="one-term whig unaffiliated"></div>
+            <div class="one-term democratic"></div>
+            <div class="whig"></div>
+            <div class="one-term whig"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"
+        integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script> -->
+    <script>
+        function generatePeriod(start, end, step = 1) {
+            const result = [];
+            for (let i = start; i <= end; i += step) {
+                result.push(i);
+            }
+            return result;
+        }
+
+        async function drawPresidentGraph() {
+            const presidentsData = await d3.csv('presidents.csv')
+            const getYear = d => d.slice(-4)
+            console.log(presidentsData[0])
+
+        }
+
+        drawPresidentGraph();
+    </script>
+</body>
+
+</html>

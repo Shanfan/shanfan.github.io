@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>prototypes</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+            background-color: rgb(40, 48, 77);
+            color: rgb(155, 164, 200);
+        }
+
+        a {
+            color: rgb(155, 164, 200);
+        }
+
+        canvas {
+            cursor: none;
+            border: 1px solid rgb(66, 76, 115);
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="900" height="600"></canvas>
+    <script>
+        const canvas = document.querySelector("canvas");
+        const ctx = canvas.getContext("2d");
+        let raf; // will use this to store animation
+        let beaming = false;
+
+        // Define ball as a variable instead of Class since we don't plan to reuse it
+        const ring = {
+            x: 100,
+            y: 100,
+            radius: 5,
+            alpha: 1,
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+                ctx.closePath();
+                ctx.strokeStyle = `rgba(66, 76, 115, ${this.alpha})`;
+                ctx.stroke();
+            },
+        };
+
+        function clear() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function draw() { // Drawing the entire canvas
+            clear();
+            ring.draw();
+
+            if (beaming && ring.radius < 200) {
+                ring.radius += 2;
+                ring.alpha -= 0.01;
+            } else {
+                clear();
+                ring.radius = 5
+                ring.alpha = 1
+                beaming = false;
+            }
+
+            raf = window.requestAnimationFrame(draw);
+        }
+
+        canvas.addEventListener("mousemove", (e) => {
+            if (!beaming) {
+                clear();
+                ring.x = e.clientX - canvas.offsetLeft;
+                ring.y = e.clientY - canvas.offsetTop;
+                ring.draw();
+            }
+        });
+
+        canvas.addEventListener("click", (e) => {
+            if (!beaming) {
+                raf = window.requestAnimationFrame(draw);
+                beaming = true;
+            }
+        });
+
+        canvas.addEventListener("mouseout", (e) => {
+            window.cancelAnimationFrame(raf);  // stop the animation when mouse out of canvas
+            beaming = false; // reset running status
+        });
+
+        ring.draw()
+
+    </script>
+</body>
+
+</html>

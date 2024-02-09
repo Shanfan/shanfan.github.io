@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>prototypes</title>
+    <style>
+        :root {
+            --unaffiliated: #fff;
+            --federalist: #cebde0;
+            --democratic-republican: #b792e4;
+            --democratic-republican-national-republican: linear-gradient(60deg, var(--democratic-republican) 0 49%, #5D2FD8 50% 100%);
+            --whig: #868ddb;
+            --democratic: #5963e2;
+            --republican: #d03dac;
+            --bg-pale: #D6D7D9;
+            --bg-blue: #28304D;
+            --bg-deepblue: #242941;
+            --text-pale: #707ca9;
+        }
+
+        body {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--bg-deepblue);
+        }
+
+        p {
+            margin: 0;
+        }
+
+        #container {
+            padding: 1rem;
+        }
+
+        .president {
+            --party: #fff;
+            color: var(--party);
+            display: grid;
+            grid-template-columns: 3em auto;
+            grid-template-rows: 3em auto;
+            grid-gap: 0.75em;
+            align-items: center;
+            margin: 3em 0;
+        }
+
+        .profile-info .header {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .profile-info .info {
+            font-size: 14px;
+            line-height: 1.5em;
+        }
+
+        .profile-img {
+            position: relative;
+            border: 2px solid var(--party);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .profile-img img {
+            position: absolute;
+            width: 100%;
+            height: auto;
+            opacity: 0.85;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .profile-img:hover img {
+            opacity: 1;
+            transform: scale(1.2) translateY(5%);
+        }
+
+        .life-span {
+            position: relative;
+            border: solid 1px var(--party);
+            border-radius: 10px;
+            grid-column: span 2;
+            padding: 2px;
+        }
+
+        .time-in-office {
+            position: relative;
+            height: 8px;
+            border-radius: 4px;
+        }
+
+        .life-span span {
+            position: absolute;
+            font-size: 0.8em;
+        }
+
+        .time-in-office span {
+            top: -1.5em;
+            left: -50%;
+            width: 10em;
+            text-align: center;
+        }
+
+        .life-span>span {
+            top: 1.5em;
+        }
+
+        .life-span>span:last-of-type {
+            right: 0;
+        }
+
+        #backgroundGrid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 1rem;
+            /* Same as the presidents' container */
+            height: 5612px;
+            width: 2344px;
+            stroke-dasharray: 4 4;
+        }
+
+        #nationTime {
+            position: sticky;
+            top: 0;
+            padding: 1rem;
+            background: #242941;
+            z-index: 99;
+        }
+
+        #nationTime>div {
+            position: absolute;
+            min-width: 2px;
+            height: 10px;
+            border-right: 1px solid #28304D;
+            border-left: 1px solid #28304D;
+            transition: all 0.1s linear;
+        }
+
+        #nationTime>div:hover {
+            cursor: pointer;
+            transform: scale(1.1, 2);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="nationTime"></div>
+    <svg id="backgroundGrid">
+    </svg>
+    <div id="container">
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"
+        integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+
+        async function drawPresidentGraph() {
+            const presidentsData = await d3.csv('__presidents.csv');
+            const yearAccessor = d => parseInt(d.slice(-4));
+            const partyAccessor = d => d.toLowerCase().replace(/,| /g, "-")
+
+            const yearScale = 6;
+            const partyColors =
+            {
+                'unaffiliated': '#fff',
+                'federalist': '#cebde0',
+                'democratic-republican': '#b792e4',
+                'democratic-republican--national-republican': 'linear-gradient(70deg, #b792e4 0 49%, #5D2FD8 50% 100%)',
+                'national-republican': '#5D2FD8',
+                'whig': '#868ddb',
+                'whig--unaffiliated': 'linear-gradient(70deg, #868ddb 0 49%, #FFF 50% 100%)',
+                'democratic': '#5963e2',
+                'republican': '#d03dac',
+                'national-union': '#B02FD8',
+                'republican--national-union': 'linear-gradient(70deg, #d03dac 0 49%, #B02FD8 50% 100%)',
+                'national-union--democratic': 'linear-gradient(70deg, #B02FD8 0 49%, #5963e2 50% 100%)',
+            }
+
+            const xAxis = d3.select('#backgroundGrid').append('g')
+                .selectAll('path')
+                .data(presidentsData)
+                .join('path')
+                .attr('d', d => `M${(yearAccessor(d.term_start) - 1732) * yearScale + 3} 0 V${122 * d.order}`)
+                .attr('stroke', '#444962')
+
+            d3.select('#backgroundGrid').append('rect') // Decorative shape to separate two charts
+                .attr('x', 0)
+                .attr('y', 40)
+                .attr('width', '100%')
+                .attr('height', 20)
+                .attr('fill', '#242941')
+
+            presidentsData.slice(0, 46).forEach(d => {
+                drawPresident(d, yearScale, partyColors)
+            })
+
+            d3.select('#nationTime')
+                .selectAll('div')
+                .data(presidentsData)
+                .join('div')
+                .style('width', d => d.term_end ? (yearAccessor(d.term_end) - yearAccessor(d.term_start)) * yearScale + "px" : 5 * yearScale + "px")
+                .style('background', d => partyColors[partyAccessor(d.party)])
+                .style('transform', d => `translateX(${(yearAccessor(d.term_start) - 1732) * yearScale + 3}px)`)
+                .attr('data-name', d => d.name)
+                .attr('data-order', d => d.order)
+                .attr('title', d => d.name + ", b:" + d.birth + " - d:" + d.death + ", Party: " + d.party)
+
+            console.log(presidentsData[4].party)
+        }
+
+        drawPresidentGraph();
+
+        function drawPresident(data, yearScale, partyColors) {
+            const term_start = parseInt(data.term_start.slice(-4))
+            const term_end = parseInt(data.term_end.slice(-4))
+            const birth = parseInt(data.birth)
+            const death = parseInt(data.death);
+            const party = data.party.toLowerCase().replace(/,| /g, "-")
+
+            const president = d3.select('#container')
+                .append('div')
+                .attr('class', `president ${party}`)
+                .style('--party', partyColors[party.replace(/--.*/, '')])
+                .style('transform', `translateX(${(birth - 1732) * yearScale}px)`)
+
+            const profileImg = president.append('div')
+                .attr('class', 'profile-img')
+                .append('img')
+                .attr('src', data.portrait_link)
+
+            const profileInfo = president.append('div')
+                .attr('class', 'profile-info')
+                .html(`
+                    <p class='header'>${data.name}</p>
+                    <p class='info'>Affiliation: ${data.party}</p>
+                `)
+            const lifeSpan = president.append('div')
+                .attr('class', 'life-span')
+                .style('width', isNaN(death) ? ((term_end ? term_end : 2025) - birth) * yearScale + "px" : (death - birth) * yearScale + "px")
+                .style('border-right', isNaN(death) ? 'transparent' : '')
+                .style('border-top-right-radius', isNaN(death) ? '0px' : '')
+                .style('border-bottom-right-radius', isNaN(death) ? '0px' : '')
+                .html(`
+                <span>b: ${birth}</span>
+                <span>d: ${death}</span>
+            `)
+
+            const term = lifeSpan.append('div')
+                .attr('class', 'time-in-office')
+                .style('background', partyColors[party])
+                .style('width', (term_end ? (term_end - term_start) : 5) * yearScale + "px")
+                .style('transform', `translateX(${(term_start - birth) * yearScale}px)`)
+                .append('span')
+                .html(`
+                term: ${term_start}-${term_end}
+            `)
+        }
+
+
+
+    </script>
+</body>
+
+</html>

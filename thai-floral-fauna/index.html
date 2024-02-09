@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Fauna & Floral Scroll</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+  <div id="container">
+    <div id="background" class="element"></div>
+    <div id="far-island" class="element"></div>
+    <div id="chickens" class="element"></div>
+    <div id="bird-shrine" class="element"></div>
+    <div id="pottery" class="element"></div>
+    <div id="tree-trunk" class="element"></div>
+    <div id="chicken-on-trellis" class="element"></div>
+    <div id="lotus" class="element"></div>
+    <div id="elephant-god" class="element"></div>
+    <div id="lizard" class="element"></div>
+    <div id="grass" class="element"></div>
+  </div>
+
+  <script>
+    const container = document.getElementById("container");
+    const container_height = container.getBoundingClientRect().height;
+
+    const background = document.getElementById("background");
+    const chicken_on_trellis = document.getElementById("chicken-on-trellis");
+    const tree_trunk = document.getElementById("tree-trunk");
+    const far_island = document.getElementById("far-island");
+    const bird_shrine = document.getElementById("bird-shrine");
+    const chickens = document.getElementById("chickens");
+
+    const elephant_god = document.getElementById("elephant-god");
+    const grass = document.getElementById("grass");
+    const lizard = document.getElementById("lizard");
+    const lotus = document.getElementById("lotus");
+    const pottery = document.getElementById("pottery");
+
+
+    container.addEventListener("scroll", () => {
+      const baseSpeed = container.scrollTop;
+      // tree_trunk.style.transform = `translateY(${baseSpeed *1}px)`; 
+      // this makes it staying in place!!!
+
+      background.style.transform = `translateY(${baseSpeed * 0.80}px)`;
+
+      chicken_on_trellis.style.transform = `translateY(${baseSpeed * 0.18}px)`;
+      far_island.style.transform = `translateY(${baseSpeed * 0.14}px)`;
+      chickens.style.transform = `translateY(${baseSpeed * 0.17}px)`;
+
+      // bird_shrine.style.transform = `translateY(${baseSpeed *0.20}px)`;
+      // this image must stay true to its position in order to establish the true length of the container
+      // otherwise, we need to make at least one layer that extends to our desired length
+
+      pottery.style.transform = `translateY(${baseSpeed * 0.025}px)`;
+      lotus.style.transform = `translateY(${baseSpeed * 0.07}px)`;
+      elephant_god.style.transform = `translateY(${baseSpeed * 0.06}px)`;
+      lizard.style.transform = `translate(${baseSpeed / 200}px, ${baseSpeed * 0.01}px)`;
+
+      // console.log("Container top (baseSpeed):", baseSpeed);
+
+    });
+  </script>
+</body>
+
+</html>

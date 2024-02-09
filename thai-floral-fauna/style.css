@@ -1,0 +1,105 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #222;
+    position: relative;
+}
+
+#container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 100vh;
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    background-color: white;
+}
+
+#container::-webkit-scrollbar{
+    display: none;
+}
+
+#intro {
+    position: relative;
+    color: white;
+    /* background-color: #C1D3D4; */
+    margin: 0;
+    padding: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 720px;
+}
+
+.element{
+    position: absolute;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#background {
+    background: linear-gradient(160deg, #C1D3D4 25%, white 75%);
+    height: 1600px;
+}
+
+#chicken-on-trellis {
+    background-image: url("img/chicken_on_trellis.png");
+    height: 1037px;
+}
+
+#tree-trunk {
+    background-image: url("img/tree_trunk.png");
+    height: 3490px;
+}
+
+#far-island {
+    background-image: url("img/far_island.png");
+    height: 1225px;
+    top: 2650px;
+}
+
+#chickens {
+    background-image: url("img/chickens.png");
+    height: 505px;
+    top: 3400px;
+}
+#bird-shrine {
+    background-image: url("img/bird_shrine.png");
+    height: 2042px;
+    top: 3740px;
+}
+#pottery {
+    background-image: url("img/pottery.png");
+    width: 157px;
+    height: 479px;
+    left: 25%;
+    top: 4210px;
+}
+#lotus {
+    background-image: url("img/lotus.png");
+    width: 368px;
+    height: 880px;
+    top: 4114px;
+}
+#elephant-god {
+    background-image: url("img/elephant_god.png");
+    width: 544px;
+    height: 889px;
+    right: 0;
+    top: 4337px;
+}
+#lizard {
+    background-image: url("img/lizard.png");
+    width: 638px;
+    height: 295px;
+    left: 10%;
+    top: 5440px;
+}
+#grass {
+    background-image: url("img/front_grass.png");
+    width: 800px;
+    height: 543px;
+    top: 5239px;
+}

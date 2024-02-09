@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>prototypes</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;500&family=Roboto+Serif:opsz,wght@8..144,300;8..144,500&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto Mono', Courier, monospace;
+            font-weight: 300;
+            color: white;
+            background-color: #1d232f;
+            --utzon: #d55246;
+            --gehry: #2a5ddd;
+
+        }
+
+        .heroImg {
+            background-image: url('./assets/album/floral09.jpg');
+        }
+
+        .spacer {
+            height: 400px;
+            text-align: center;
+            color: white;
+            border: 5px solid white;
+            font-size: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            background: rgba(18, 21, 26, 0.75);
+            /* mix-blend-mode: multiply; */
+            z-index: 2;
+        }
+
+        .footer {
+            height: calc(100vh - 400px);
+        }
+
+        .announcer {
+            font-weight: 300;
+            position: absolute;
+            left: 1rem;
+            bottom: 1rem;
+        }
+
+        .visCanvas {
+            height: 2300px;
+            display: grid;
+            grid-template-columns: 40% 20% 40%;
+        }
+
+        .middle {
+            text-align: center;
+        }
+
+        .visCanvas>* {
+            position: relative;
+        }
+
+        .yearMarks {
+            position: relative;
+        }
+
+        .yearMarks>* {
+            position: absolute;
+            list-style: none;
+            font-size: 0.8rem;
+            opacity: 0.25;
+            padding: 0;
+            margin: 0;
+            transform: translate(-50%, -0.5em);
+        }
+
+        .left .yearMarks>* {
+            left: 125%;
+        }
+
+        .right .yearMarks>* {
+            left: -25%
+        }
+
+        .warYears {
+            position: absolute;
+            width: 120%;
+        }
+
+        .left .warYears {
+            background: linear-gradient(90deg, rgba(58, 35, 35, 0.9) 80%, rgba(58, 35, 35, 0));
+        }
+
+        .right .warYears {
+            left: -20%;
+            background: linear-gradient(-90deg, rgba(58, 35, 35, 0.9) 80%, rgba(58, 35, 35, 0));
+        }
+
+        .lifeSpan {
+            position: absolute;
+            width: 30px;
+            fill: var(--color);
+            stroke: var(--color);
+        }
+
+        .utzon {
+            --color: var(--utzon);
+            left: 85%;
+
+        }
+
+        .gehry {
+            --color: var(--gehry);
+            left: 15%;
+            transform: translateX(-100%);
+        }
+
+        .career {
+            opacity: 0;
+            position: absolute;
+            text-transform: uppercase;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="spacer heroImg">Hero Image</div>
+    <div class="spacer header">
+        <button onclick="tl.play('start')">1. Slide up Hero Img</button>
+        <button onclick="tl.play('earlyLife')">2. Walk through early life</button>
+        <button>3. Timeline split</button>
+        <button>4. Early Career</button>
+        <button>5. Mid Career</button>
+        <button>6. Legacy</button>
+        <button>7. Final Years</button>
+        <div class="announcer">1918</div>
+    </div>
+    <div class="visCanvas">
+        <div class="left">
+            <div class="warYears wwi"></div>
+            <div class="warYears wwii"></div>
+            <div class="yearMarks"></div>
+            <svg class="lifeSpan utzon"></svg>
+        </div>
+        <div class="middle">
+            <p class="early career">Early Career</p>
+            <p class="mid career">Mid Career</p>
+            <p class="late career">Late Career</p>
+            <p class="legacy career">Legacy</p>
+        </div>
+        <div class="right">
+            <div class="warYears wwi"></div>
+            <div class="warYears wwii"></div>
+            <div class="yearMarks"></div>
+            <svg class="lifeSpan gehry"></svg>
+        </div>
+
+    </div>
+    <div class="spacer footer">Footer / Credits</div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"
+        integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // GSAP selector will is more like "querySelectorAll"
+        const canvas = document.querySelector('.visCanvas')
+        const dimension = canvas.getBoundingClientRect()
+        const colWidth = document.querySelector('.visCanvas .left').offsetWidth
+
+        const scale = d3.scaleLinear().range([0, dimension.height]).domain([1915, 2025])
+
+        function layYearMarks(selector, scale) {
+            for (let i = scale.domain()[0]; i < scale.domain()[1]; i += 5) {
+                d3.select(selector).append('div').text(i)
+                    .style('top', scale(i) + 'px')
+            }
+        }
+
+        function renderWar(selector, start, end) {
+            d3.select(selector)
+                .style('top', scale(start) + 'px')
+                .style('height', scale(end) - scale(start) + 'px')
+        }
+
+
+        const starPath = "M5.114,5.114l8.177,3.738c0.536,0.246 1.119,0.373 1.709,0.373c0.59,-0 1.173,-0.127 1.709,-0.373l8.177,-3.738l-3.738,8.177c-0.246,0.536 -0.373,1.119 -0.373,1.709c0,0.59 0.127,1.173 0.373,1.709l3.738,8.177l-8.177,-3.738c-0.536,-0.246 -1.119,-0.373 -1.709,-0.373c-0.59,0 -1.173,0.127 -1.709,0.373l-8.177,3.738l3.738,-8.177c0.246,-0.536 0.373,-1.119 0.373,-1.709c-0,-0.59 -0.127,-1.173 -0.373,-1.709l-3.738,-8.177Z"
+        const triUpPath = "M15,0l10,13.041l-20,-0l10,-13.041Z"
+        const triDownPath = "M15,30l-10,-13.041l20,0l-10,13.041Z"
+        const diamondPath = "M15,5.101l-9.899,9.899l9.899,9.899l9.899,-9.899l-9.899,-9.899Z"
+
+        function drawUtzon() {
+            const utzon = d3.select('.utzon')  // We should rewrite this... the SVG frame should extend the entire column, not get cropped by the lifespan
+                .style('top', scale(1918) + 'px')
+                .style('height', scale(2008) - scale(1918) + 'px')
+
+            utzon.append('circle')
+                .attr('r', 4)
+                .attr('cy', 10)
+                .attr('cx', 15)
+                .attr('fill', 'none')
+                .attr('stroke-width', 2)
+
+            utzon.append('path')
+                .attr('d', `M15 10 V${scale(2008) - scale(1918)}`)
+
+            utzon.append('path')
+                .attr('d', `M2 ${scale(2008) - scale(1918) - 1} H28`)
+                .attr('stroke-width', 2)
+
+            utzon.append('path')
+                .attr('class', 'eduStart')
+                .attr('d', triUpPath)
+                .style('transform', `translateY(${scale(1937)}px)`)
+
+            utzon.append('path')
+                .attr('class', 'eduEnd')
+                .attr('d', triDownPath)
+                .style('transform', `translateY(${scale(1942)}px)`)
+
+            utzon.append('path')
+                .attr('class', 'pritzker')
+                .attr('d', starPath)
+                .style('transform', `translateY(${scale(2003)}px)`)
+        }
+
+        function drawGhery() {
+            const gehry = d3.select('.gehry')
+                .style('top', scale(1929) + 'px')
+                .style('height', scale(2025) - scale(1929) + 'px')
+
+            gehry.append('circle')
+                .attr('class', 'birth')
+                .attr('r', 4)
+                .attr('cy', 10)
+                .attr('cx', 15)
+                .attr('fill', 'none')
+                .attr('stroke-width', 2)
+
+            gehry.append('path')
+                .attr('d', `M15 10 V${scale(2023) - scale(1929)}`)
+
+            gehry.append('path')
+                .attr('class', 'eduStart')
+                .attr('d', triUpPath)
+                .style('transform', `translateY(${scale(1947)}px)`)
+
+            gehry.append('path')
+                .attr('class', 'eduEnd')
+                .attr('d', triDownPath)
+                .style('transform', `translateY(${scale(1956)}px)`)
+
+
+
+            // Life Milestones
+            gehry.append('path')
+                .attr('d', starPath)
+                .attr('class', 'pritzker')
+                .style('transform', `translateY(${scale(1989)}px)`)
+
+
+        }
+
+        function renderCareerMark(selector, year) {
+            d3.select(selector).style('top', scale(year) + "px")
+        }
+
+        renderWar('.visCanvas .left .wwi', 1914, 1918)
+        renderWar('.visCanvas .right .wwi', 1914, 1918)
+        renderWar('.visCanvas .left .wwii', 1937, 1945)
+        renderWar('.visCanvas .right .wwii', 1937, 1945)
+
+        layYearMarks('.visCanvas .left .yearMarks', scale);
+        layYearMarks('.visCanvas .right .yearMarks', scale);
+
+        renderCareerMark('.early.career', 1952)
+        renderCareerMark('.mid.career', 1967)
+        renderCareerMark('.late.career', 1985)
+        renderCareerMark('.legacy.career', 2000)
+
+        drawUtzon()
+        drawGhery()
+
+        const tl = gsap.timeline({
+            defaults: { duration: 1.5, ease: "linear" },
+        })
+
+        let slideHeroImg = tl.addLabel("start")
+            .to('.heroImg', {
+                fontSize: 0,
+                height: 0,
+                scrollTrigger: {
+                    trigger: '.header',
+                    scrub: 1,
+                    start: 'top 400',
+                    end: '+=400',
+                }
+            }).addPause("earlyLife")
+        // .call() // use this call to set isYear T/F
+
+        let timeSplit = tl.addLabel("earlyLife")
+            .to('.visCanvas .right', { y: -scale(1926) })
+            .to('.left .yearMarks', { xPercent: -25, x: '2em' }, '<')
+            .to('.right .yearMarks', { xPercent: 25, x: '-2em' }, '<')
+            .to('.early.career', { opacity: 0.75, duration: 0.5 }, '<1')
+            .addLabel('timeSplit')
+
+        let triggerTimeSplit = ScrollTrigger.create({
+            animation: timeSplit,
+            trigger: '.visCanvas',
+            start: `${scale(1918)} 400`,
+            end: `+=${scale(1937) - scale(1918)}`,
+            scrub: 1,
+            markers: true,
+        })
+
+        let isYear = true
+        function updateAnnoucer() { // This still needs to go into scroll event listener
+            const announcer = document.querySelector('.announcer')
+            const headerBottom = document.querySelector('.header').getBoundingClientRect().bottom
+            const canvasTop = canvas.getBoundingClientRect().top
+            const currentYear = Math.round(scale.invert(headerBottom - canvasTop))
+
+            announcer.textContent = isYear ? currentYear : `Age ${currentYear - 1918}`
+
+            console.log(isYear)
+        }
+
+
+        // tl.to('.mid.career', { opacity: 0.75, duration: 0.1 })
+        //     .to('.late.career', { opacity: 0.75, duration: 0.1 })
+        //     .to('.legacy.career', { opacity: 0.75, duration: 0.1 })
+
+        // Animation Timeline Planning:
+        // 1. When header moves up to top, Hero Image shrinks
+        // 2. with header pinned at top, between 1915~1960: Announcer shows "year"
+        //    As user scrolls, talk about each architect's upbringing and professional education
+        // 3. between 1960 ~ 1989: Announcer shows "Age"
+        //     Two timelines split
+        // 4. 1960~1973: "early career" Narration focus on the Opera House Saga
+        // 5. 1973~1989: "mid career" Narration focus on Gehry's experimentation & his winning of Pritzker Prize
+        // 6. 1990 ~ 2003: Announcer shows "year"
+        //    Two timelines come back together
+        //    Disney Concert Hall + BilBao
+        // 7. 2003~2008: final years
+        //    2003 Pritzker Price
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>prototypes</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #28304D;
+            overflow: hidden;
+        }
+
+        .timeTrack {
+            display: flex;
+            width: 900px;
+            height: 40px;
+            align-items: center;
+            justify-content: start;
+            margin: 4px 0;
+            background: #222945;
+            overflow-x: clip;
+        }
+
+        /* Styling time selector */
+
+        #timeSlider {
+            appearance: none;
+            width: 100%;
+            height: 1px;
+            background-color: #9c780e;
+            outline: none;
+        }
+
+        #timeSlider::-webkit-slider-thumb {
+            cursor: pointer;
+            appearance: none;
+            height: 24px;
+            width: 14px;
+            border-bottom: 10px solid rgb(236, 186, 34);
+            border-left: 7pt solid transparent;
+            border-right: 7pt solid transparent;
+        }
+
+        #sliderContainer {
+            position: relative;
+        }
+
+        #sliderContainer span {
+            position: absolute;
+            font-size: 12px;
+            color: #9c780e;
+        }
+
+        #sliderContainer span:first-of-type {
+            top: 0;
+            left: -2em;
+        }
+
+        #sliderContainer span:last-of-type {
+            top: 0;
+            right: -2em;
+        }
+
+        /* Time Points Controller */
+
+        #landTime {
+            font-size: 8px;
+        }
+
+        #landTime>div {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 0 0.1rem;
+            color: rgb(236, 186, 34);
+            transition: all 0.1s linear;
+        }
+
+        #landTime>div:focus {
+            outline: none;
+        }
+
+        #landTime>div>span {
+            display: none;
+            position: absolute;
+            font-size: 1rem;
+            top: -1.2em;
+        }
+
+        #landTime>div:hover,
+        #landTime>div:focus-visible,
+        #landTime>div.selected {
+            cursor: pointer;
+            font-size: 5em;
+        }
+
+        #landTime>div:has(+ div:hover),
+        #landTime>div:hover+div {
+            font-size: 3em;
+        }
+
+        #landTime>div:has(+ div + div:hover),
+        #landTime>div:hover+div+div {
+            font-size: 2em;
+        }
+
+        #landTime>div:hover>span,
+        #landTime>div:focus-visible>span,
+        #landTime>div.selected>span {
+            display: block;
+        }
+
+        #landTime>div:focus-visible,
+        #landTime>div.selected {
+            color: rgb(240, 213, 58);
+            text-shadow: 0 0 5px rgb(236, 186, 34);
+        }
+
+        #landTime>div:focus-visible>span,
+        #landTime>div.selected>span {
+            border-top: rgb(236, 186, 34) 1px solid;
+        }
+
+        #warTime {
+            position: relative;
+        }
+
+        #warTime>div {
+            position: absolute;
+            background-color: #9A2E22;
+            height: 10px;
+            border-radius: 7px;
+            transition: all 0.1s linear;
+        }
+
+        #warTime>div:hover {
+            cursor: pointer;
+            height: 20px;
+            border-radius: 10px;
+        }
+
+        #nationTime {
+            /* position: relative; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #nationTime>div {
+            min-width: 2px;
+            height: 10px;
+            border-right: 1px solid #28304D;
+            border-left: 1px solid #28304D;
+            transition: all 0.1s linear;
+        }
+
+        #nationTime>div:hover,
+        #nationTime>div.selected {
+            cursor: pointer;
+            transform: scale(1.1, 2);
+            /* font-size: 3em; */
+        }
+
+        /* Politics Color Coding */
+        .unaffiliated {
+            background-color: white;
+        }
+
+        .federalist {
+            background-color: #cebde0;
+        }
+
+        .democratic-republican {
+            background-color: #b792e4;
+        }
+
+        .whig {
+            background-color: #868ddb;
+        }
+
+        .democratic {
+            background-color: #5963E2;
+        }
+
+        .republican {
+            background: #d546b1;
+        }
+
+        .democratic-republican--national-republican {
+            /* TODO: Other dual party color codings */
+            background: linear-gradient(60deg, #b792e4 0 49%, #5D2FD8 50% 100%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="timeTrackContainer">
+            <div id="landTime" class="timeTrack"></div>
+            <div id="warTime" class="timeTrack"></div>
+            <div class="timeTrack">
+                <div id="nationTime"></div>
+            </div>
+            <div id="sliderContainer">
+                <input id="timeSlider" type="range" />
+                <span id="start">1750</span>
+                <span id="end">1850</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"
+        integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+
+        function drawLandTime() {
+            const landTime = d3.select('#landTime').selectAll('div')
+                .data(period)
+                .join('div')
+                .attr('tabindex', '0')
+                .attr('data-year', d => d)
+                .html(d => `&#x25CB;<span>${d}</span>`)
+        }
+
+        function drawWarTime() {
+            const warData = [
+                { name: "Revolution War", start: "1775", end: "1783" },
+                { name: "War of 1812", start: "1812", end: "1815" },
+                { name: "Mexican War", start: "1846", end: "1848" },
+                { name: "Civil War", start: "1861", end: "1865" },
+                { name: "Spanish-American War", start: "1898", end: "1902" }
+            ]
+
+            d3.select('#warTime').selectAll('div').data(warData)
+                .join('div')
+                .style('left', d => scale(d.start) + "px")
+                .style('width', d => (scale(d.end) - scale(d.start)) + "px")
+                .attr('data-name', d => d.name)
+                .attr('title', d => d.name + ", " + d.start + "-" + d.end)
+
+        }
+
+        async function drawNationTime() {
+            const presidentsData = await d3.csv('presidents.csv')
+            const yearAccessor = d => scale(+d.slice(-4))
+            const dataInView = presidentsData.filter((d) => parseInt(d.term_end.slice(-4)) < 1862)
+
+            console.log(dataInView[dataInView.length - 1], dataInView.length)
+
+            d3.select('#nationTime')
+                .style('transform', 'translateX(' + yearAccessor(dataInView[0].term_start) + 'px)')
+                .selectAll('div')
+                .data(dataInView)
+                .join('div')
+                .style('width', d => (yearAccessor(d.term_end) - yearAccessor(d.term_start)) + "px")
+                .attr('class', d => d.party.toLowerCase().replace(/,| /g, "-"))
+                .attr('data-name', d => d.name)
+                .attr('data-order', d => d.order)
+                .attr('title', d => d.name + ", b:" + d.birth + " - d:" + d.death + ", Party: " + d.party)
+
+        }
+
+
+        const period = generatePeriod(1750, 1862)
+        const scale = d3.scaleLinear().domain(d3.extent(period)).range([0, 900])
+
+
+        drawLandTime();
+        drawWarTime();
+        drawNationTime();
+
+        const start = 1776
+        const timeSlider = document.querySelector("#timeSlider")
+        const landTime = document.querySelector("#landTime")
+
+        timeSlider.min = d3.extent(period)[0]
+        timeSlider.max = d3.extent(period)[1]
+        timeSlider.value = start
+
+        document.querySelector("#sliderContainer #start").innerHTML = timeSlider.min
+        document.querySelector("#sliderContainer #end").innerHTML = timeSlider.max
+
+        landTime.querySelector('[data-year="' + start + '"]').className = "selected"
+
+        timeSlider.addEventListener('input', (e) => {
+            landTime.querySelectorAll('div').forEach(e => e.className = "")
+            const selector = '[data-year="' + e.target.value + '"]'
+            const selectedYear = landTime.querySelector(selector)
+            selectedYear.focus({ focusVisible: true })
+            //This doesn't work with Chrome, need a backup
+            selectedYear.className = "selected"
+
+        })
+
+        // Upon re-evaluation, I don't think the slider is really necessary... sigh.
+        // I think we should just use the dots click as a way for selection. The slider is quite redundant in that.
+        // So first timeline (yellow dots) as Input, and the other two respond to its input
+        // Dragging the entire area moves the timeline forward.
+
+
+        ////// Utility Functions ///////////
+        function generatePeriod(start, end, step = 1) {
+            const result = [];
+            for (let i = start; i <= end; i += step) {
+                result.push(i);
+            }
+            return result;
+        }
+
+    </script>
+</body>
+
+</html>

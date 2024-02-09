@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>prototypes</title>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+            background: paleturquoise;
+            display: grid;
+            align-items: center;
+            text-align: center;
+        }
+
+        .containedView {
+            border: 5px solid #fff;
+            color: #fff;
+            background: #222;
+            width: 80%;
+            height: 650px;
+            margin: 0 auto;
+        }
+
+        .ball {
+            background: lightgreen;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 10px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="containedView">
+
+        <div class="ball"></div>
+
+    </div>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"
+        integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        const tl = gsap.timeline()
+
+        tl.to('.ball', {
+            keyframes: {
+                "0%": { yPercent: 0, scaleX: 1, scaleY: 1, ease: "sine.out" },
+                "7%": { yPercent: 5, scaleX: 1.1, scaleY: 0.9, ease: "sine.in" },
+                "25%": { yPercent: 100, scaleX: 0.9, scaleY: 1.15, ease: "sine.in" },
+                "50%": { yPercent: 500, scaleX: 1, scaleY: 1, ease: "none" },
+                "60%": { scaleX: 1.6, scaleY: 0.4, ease: "none" },
+                "65%": { yPercent: 500, scaleX: 1, scaleY: 1, ease: "sine.out" },
+                "100%": { yPercent: 0, scaleX: 1, scaleY: 1, ease: "sine.out" }
+            },
+            duration: 0.8,
+            repeat: -1,
+            transformOrigin: "center bottom",
+        })
+    </script>
+</body>
+
+</html>

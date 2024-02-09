@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>neo-light</title>
+    <style>
+        body {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            height: 5000px;
+        }
+
+        .container {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(157deg, #1b1f4b, #06071c);
+        }
+
+        canvas {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 100vw;
+            max-height: 100vh;
+        }
+
+        .indication-up,
+        .indication-down {
+            position: absolute;
+            left: 50%;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 3em;
+            text-align: center;
+            color: white;
+            animation: float alternate 1s infinite ease-in-out;
+        }
+
+        .indication-down {
+            top: 33vh;
+        }
+
+        .indication-up {
+            bottom: 1em;
+        }
+
+        .indication-up:hover {
+            cursor: pointer;
+            text-shadow: 0 2px 4px white;
+        }
+
+        @keyframes float {
+            from {
+                transform: translate(-50%, 0);
+            }
+
+            to {
+                transform: translate(-50%, 20px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <canvas id="neo-light"></canvas>
+    </div>
+
+    <div class="indication-down">
+        Scroll down :&rpar; <br> &#x2B07;
+    </div>
+    <div class="indication-up">
+        &#x2B06; <br> Back to top
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+        const canvas = document.querySelector('#neo-light');
+        const context = canvas.getContext('2d');
+        canvas.width = 1080;
+        canvas.height = 1080;
+
+        const frameCount = 21;
+        const currentFrame = (index) => (`./assets/${(index).toString().padStart(2, '0')}.png`);
+
+        const images = [];
+        const neons = { frame: 0 };
+
+        for (let i = 0; i < frameCount; i++) {
+            const img = new Image();
+            img.src = currentFrame(i);
+            images.push(img);
+        }
+
+        //Move the last frame to the beginning
+        images.unshift(images.pop());
+
+        gsap.to(neons, {
+            frame: frameCount - 1,
+            snap: "frame",
+            // ease: "none",
+            scrollTrigger: {
+                scrub: 0.5
+            },
+            onUpdate: render
+        })
+
+        images[0].onload = render;
+
+        function render() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(images[neons.frame], 0, 0);
+        }
+
+        gsap.to('.indication-down', {
+            opacity: 0,
+            ease: 'power1.out',
+            scrollTrigger: {
+                trigger: '.indication-down',
+                start: 'top 30%',
+                end: '+=150',
+                scrub: 0.5,
+            }
+        })
+
+        gsap.from('.indication-up', {
+            opacity: 0,
+            ease: 'power1.in',
+            scrollTrigger: {
+                trigger: '.indication-up',
+                start: 'bottom bottom',
+                end: '+=10',
+                scrub: 0.5,
+            }
+        })
+
+        document.querySelector('.indication-up').addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        })
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>prototypes</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;500&family=Roboto+Serif:opsz,wght@8..144,300;8..144,500&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto Mono', Courier, monospace;
+            color: white;
+            background-color: #374051;
+            --utzon: #D46A61;
+            --gehry: #87C7F0;
+
+        }
+
+        .heroImg {
+            background-image: url('./assets/album/floral09.jpg');
+        }
+
+        .spacer {
+            height: 400px;
+            text-align: center;
+            color: white;
+            border: 5px solid white;
+            font-size: 3rem;
+            display: grid;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            background: rgba(40, 43, 50, 0.85);
+            mix-blend-mode: multiply;
+            z-index: 2;
+        }
+
+        .footer {
+            height: calc(100vh - 400px);
+        }
+
+        .yearAnnouncer {
+            font-weight: 300;
+            position: absolute;
+            left: 1rem;
+            bottom: 1rem;
+        }
+
+        .visCanvas {
+            position: relative;
+            height: 1300px;
+        }
+
+        .yearMark {
+            font-weight: 300;
+            max-width: 5vw;
+            transform: translateX(50vw);
+        }
+
+        .yearMark>* {
+            position: absolute;
+            list-style: none;
+            font-size: 0.8rem;
+            opacity: 0.5;
+            padding: 0;
+            margin: 0;
+        }
+
+        .warYears {
+            position: absolute;
+            width: 100%;
+            background: #4A3338;
+        }
+
+        .lifeSpan {
+            position: absolute;
+            width: 30px;
+            fill: var(--color);
+            stroke: var(--color);
+        }
+
+        #utzon {
+            --color: var(--utzon);
+        }
+
+        #gehry {
+            --color: var(--gehry);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="spacer heroImg">Hero Image</div>
+    <div class="spacer header">
+        Header
+        <div class="yearAnnouncer">1918</div>
+    </div>
+    <div class="visCanvas">
+        <div class="warYears" id="wwi"></div>
+        <div class="warYears" id="wwii"></div>
+        <div class="yearMark"></div>
+        <svg class="lifeSpan" id="utzon"></svg>
+        <svg class="lifeSpan" id="gehry"></svg>
+    </div>
+    <div class="spacer footer">Footer / Credits</div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"
+        integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        const canvas = document.querySelector('.visCanvas')
+        const dimension = canvas.getBoundingClientRect()
+        const scale = d3.scaleLinear().range([0, dimension.height]).domain([1914, 2023])
+
+        const utzonData = {
+            born: 1918,
+            died: 2008,
+            keyEvents: {
+
+            }
+        }
+
+        for (let i = 1920; i < scale.domain()[1]; i += 5) {
+            d3.select('.yearMark').append('div').text(i)
+                .style('top', scale(i) - 8 + 'px'); // half REM to get the text line up with measure
+        }
+
+        d3.select('#wwi')
+            .style('top', scale(1914) + 'px')
+            .style('height', scale(1918) - scale(1914) + 'px')
+
+        d3.select('#wwii')
+            .style('top', scale(1937) + 'px')
+            .style('height', scale(1945) - scale(1937) + 'px')
+
+        const utzon = d3.select('#utzon')
+            .style('top', scale(1918) + 'px')
+            .style('left', dimension.width / 3 + 'px')
+            .style('height', scale(2008) - scale(1918) + 'px')
+
+        utzon.append('circle')
+            .attr('r', 4)
+            .attr('cy', 10)
+            .attr('cx', 15)
+            .attr('fill', 'none')
+            .attr('stroke-width', 2)
+
+        utzon.append('path')
+            .attr('d', `M15 10 V${scale(2008) - scale(1918)}`)
+
+        utzon.append('path')
+            .attr('d', `M2 ${scale(2008) - scale(1918) - 1} H28`)
+            .attr('stroke-width', 2)
+
+
+        const gehry = d3.select('#gehry')
+            .style('top', scale(1929) + 'px')
+            .style('left', dimension.width / 3 * 2 + 'px')
+            .style('height', scale(2025) - scale(1929) + 'px')
+
+        gehry.append('circle')
+            .attr('r', 4)
+            .attr('cy', 10)
+            .attr('cx', 15)
+            .attr('fill', 'none')
+            .attr('stroke-width', 2)
+
+        gehry.append('path')
+            .attr('d', `M15 10 V${scale(2023) - scale(1929)}`)
+
+        let tweenHero = gsap.to('.heroImg', {
+            fontSize: 0,
+            height: 0,
+            scrollTrigger: {
+                trigger: '.header',
+                scrub: 1,
+                start: 'top 400',
+                end: '+=400',
+            }
+        })
+
+        document.addEventListener('scroll', () => {
+            const yearAnnouncer = document.querySelector('.yearAnnouncer')
+            const headerBottom = document.querySelector('.header').getBoundingClientRect().bottom
+            const canvasTop = canvas.getBoundingClientRect().top
+
+            yearAnnouncer.textContent = Math.round(scale.invert(headerBottom - canvasTop))
+            console.log(headerBottom, canvasTop)
+        })
+
+
+    </script>
+</body>
+
+</html>

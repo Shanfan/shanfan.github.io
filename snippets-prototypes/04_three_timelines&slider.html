@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>prototypes</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #28304D;
+            overflow: hidden;
+        }
+
+        /* Politics Color Coding */
+        .unaffiliated {
+            background-color: white;
+        }
+
+        .federalist {
+            background-color: #cebde0;
+        }
+
+        .democratic-republican {
+            background-color: #b792e4;
+        }
+
+        .whig {
+            background-color: #868ddb;
+        }
+
+        .democratic {
+            background-color: #5963E2;
+        }
+
+        .republican {
+            background: #d546b1;
+        }
+
+        .democratic-republican.national-republican {
+            /* TODO: Other dual party color codings */
+            background: linear-gradient(60deg, #b792e4 0 49%, #5D2FD8 50% 100%);
+        }
+
+        .timeControl {
+            display: flex;
+            width: 90vw;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Time Points Controller */
+
+        #landTime {
+            font-size: 8px;
+        }
+
+        #landTime>div {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 0 0.1rem;
+            color: rgb(236, 186, 34);
+            transition: all 0.1s linear;
+        }
+
+        #landTime>div:hover {
+            cursor: pointer;
+            text-shadow: 0 0 5px rgb(236, 186, 34);
+            font-size: 5em;
+            color: rgb(240, 213, 58);
+            border-bottom: rgb(236, 186, 34) 1px solid;
+        }
+
+        #landTime>div:has(+ div:hover),
+        #landTime>div:hover+div {
+            font-size: 3em;
+        }
+
+        #landTime>div:has(+ div + div:hover),
+        #landTime>div:hover+div+div {
+            font-size: 2em;
+        }
+
+        #landTime>div>span {
+            display: none;
+            position: absolute;
+            font-size: 1rem;
+            top: -1.2em;
+        }
+
+        #landTime>div:hover>span {
+            display: block;
+            border-top: rgb(236, 186, 34) 1px solid;
+        }
+
+        /* End of Time Points Controller */
+
+        /* Begin Politics */
+
+        #politicalTime>div {
+            position: relative;
+            width: 60px;
+            height: 10px;
+            border-right: 1px solid #28304D;
+            border-left: 1px solid #28304D;
+            transition: all 0.1s linear;
+        }
+
+        #politicalTime>div.one-term {
+            width: 30px;
+        }
+
+        #politicalTime>div:hover {
+            height: 20px;
+            width: 62px;
+            /* Shoudl be 1.05 times its own width  */
+        }
+
+        /* Begin war time */
+
+        #warTime>div {
+            background-color: #9A2E22;
+            height: 15px;
+            border-radius: 7px;
+            transition: all 0.1s linear;
+        }
+
+        #warTime>div:hover {
+            height: 20px;
+            border-radius: 10px;
+        }
+
+        /* Styling time selector */
+
+        .slidercontainer {
+            width: 60vw;
+        }
+
+        #timeSlider {
+            appearance: none;
+            width: 100%;
+            height: 1px;
+            background-color: #222945;
+            outline: none;
+        }
+
+        #timeSlider::-webkit-slider-thumb {
+            cursor: pointer;
+            appearance: none;
+            height: 24px;
+            width: 14px;
+            background-color: transparent;
+            border-bottom: 10px solid rgb(236, 186, 34);
+            border-left: 7pt solid transparent;
+            border-right: 7pt solid transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="landTime" class="timeControl">
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div class="selected">&#x25CF;<span>1775</span></div>
+            <div class="selected">&#x25CF;<span>1775</span></div>
+            <div class="selected">&#x25CF;<span>1775</span></div>
+            <div class="selected">&#x25CF;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+            <div>&#x25CB;<span>1775</span></div>
+        </div>
+        <div id="warTime" class="timeControl">
+            <div style="width: 64px"></div>
+            <div style="width: 24px; margin-left: 232px"></div>
+            <div style="width: 16px; margin-left: 248px"></div>
+            <div style="width: 32px; margin-left: 104px"></div>
+            <div style="width: 32px; margin-left: 264px"></div>
+        </div>
+        <div id="politicalTime" class="timeControl">
+            <div class="unaffiliated"></div>
+            <div class="one-term federalist"></div>
+            <div class="democratic-republican"></div>
+            <div class="democratic-republican"></div>
+            <div class="democratic-republican"></div>
+            <div class="one-term democratic-republican national-republican"></div>
+            <div class="democratic"></div>
+            <div class="one-term democratic"></div>
+            <div class="one-term whig"></div>
+            <div class="one-term whig unaffiliated"></div>
+            <div class="one-term democratic"></div>
+            <div class="whig"></div>
+            <div class="one-term whig"></div>
+        </div>
+        <div class="slidercontainer">
+            <input id="timeSlider" type="range" min="1500" max="1530" value="1507" />
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"
+        integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script> -->
+    <script>
+        function generatePeriod(start, end, step = 1) {
+            const result = [];
+            for (let i = start; i <= end; i += step) {
+                result.push(i);
+            }
+            return result;
+        }
+
+        async function drawPresidentGraph() {
+            const presidentsData = await d3.csv('presidents.csv')
+            const getYear = d => d.slice(-4)
+            console.log(presidentsData[0])
+
+        }
+        function drawLandTime() {
+            const timePtsYears = generatePeriod(1500, 1600);
+            const timePts = d3.select('#landTime').selectAll('div')
+                .data(timePtsYears)
+                .join('div')
+                .html(d => `&#x25CB;<span>${d}</span>`)
+                .attr('data-year', d => d);
+        }
+
+        drawLandTime();
+
+        drawPresidentGraph();
+    </script>
+</body>
+
+</html>

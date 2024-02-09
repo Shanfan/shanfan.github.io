@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Edu+SA+Beginner&family=Roboto+Slab:wght@600&display=swap');
+:root * {
+    box-sizing: border-box;
+}
+body {
+    font-size: 18px;
+    font-family: 'Edu SA Beginner', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-family: 'Roboto Slab', serif;
+    font-size: 3.5em;
+    text-align: center;
+}
+
+.narration { 
+    font-size: 1.5em;
+    text-align: center;
+ }
+
+.speech-bubble {
+    position: absolute;
+    font-size: 1.7em;
+    color: #222;
+    background-color: white;
+    max-width: 30%;
+    padding: 1em;
+    border-radius: 1em;
+ }
+
+ .speech-right:after,
+ .speech-left:after{
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-top-color: white;
+	border-bottom: 0;
+	margin-left: -10px;
+	margin-bottom: -20px;
+}
+
+.speech-right:after {
+    border-right: 0;
+}
+
+.speech-left:after {
+    border-left: 0;
+}
+
+
+.content-wrapper {
+    position: relative;
+    margin: 0 auto;
+    width: 100vw;
+    text-align: center;
+    background-color: #1196e8;
+}
+
+#cloud1 {
+    position: absolute;
+    left:0;
+    top: 0;
+}
+
+#cloud2 {
+    position: absolute;
+    right: 0;
+    top: calc(100vh - 600px);
+    opacity: 0.8;
+}
+
+.scene {
+    position: relative;
+    width: 100%;
+}
+
+.content {
+    margin: 0 auto;
+    padding: 10% 0;
+    width: 60vw;
+    color: white;
+}
+
+#s4 .panel img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    max-width: 800px;
+    height: 100vh;
+    max-height: 1070px;
+}
+
+.panel { /* For layering content on top of a background image*/
+    position: relative;
+    margin: 0 auto;
+    width: 100vw;
+    max-width: 800px;
+    height: 100vh;
+    max-height: 1070px;
+}
+
+.panel-img { /* For images responsive scaling */
+    width: auto;
+    max-width: 800px;
+    max-height: 100vh;
+}
+
+#s1 {
+    background-color: #000;
+}
+
+#s1 .panel {
+    background-image: url(./assets/scene1.main.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+#s1-lamp {
+    --clip: 8%;
+    position: absolute;
+    clip-path: inset(var(--clip) 0);
+    transform: translate(-50%, calc( -1 * var(--clip)));
+}
+#s1-plant {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    max-height: 100%;
+}
+
+#s1-speech1 {
+    top: 40%;
+    left: 1.5rem;
+}
+
+#s1-speech2 {
+    top: 45%;
+    right: 1.5rem;
+}
+
+#s2 {
+    background-color: #b7e823;
+    background-image: url("./assets/Ouch.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 50% 0px;
+}
+
+#s3 {
+    background-color: #eee1df;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#s4, #s5 {
+    background-color: #eeeedf;
+}
+
+#s6 {
+    background-color: #6e9a79;
+}
+
+#s6 .panel {
+    max-height: 700px;
+    background-image: url("./assets/scene3.jpg"); 
+    background-size: contain; 
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#s6-speech1 {
+    top: 11vmin;
+    left: 1.5rem;
+}
+
+#s6-speech2 {
+    top: 7vmin;
+    right: 1.5rem;
+}
+
+#s7 {
+    background-color: #07143c;
+    height: 100vh;
+}
+
+
+#moon {
+    --inset: 30%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #F2DC12;
+    width: 85vmin;
+    height: 85vmin;
+    border-radius: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-1*var(--inset)));
+    clip-path: inset(var(--inset) 0 0 0);
+}
+
+#baby {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#scroll-control {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 300vh;
+}
+
+/* Styles for screen width up to 800px */
+@media (max-width: 800px) {
+    body {
+        font-size: 14px;
+    }
+
+    .content {
+        width: 80%;
+    }
+
+    .panel-img {
+        width: 100%;
+    }
+}
+
+/* Styles for screen width at least 1200px */
+@media (min-width: 1400px) {
+    .content {
+        width: 80vmin;
+    }
+}
+
+

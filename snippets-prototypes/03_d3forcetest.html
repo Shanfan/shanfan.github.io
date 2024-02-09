@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>prototypes</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #afb2bd;
+            overflow: hidden;
+        }
+
+        svg {
+            box-shadow: 0 1px 5px #999;
+            border-radius: 5px;
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"
+        integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        const drawChart = () => {
+            const width = window.innerWidth * 0.5;
+            const height = window.innerHeight * 0.5;
+
+            let scale = 1.2
+            const center = [width / 2, height / 2]
+
+            const rescale = isNaN(nodes[0].x)   //If the node doesn't already have a x coordinate, rescale is true
+
+            const svg = d3.select('.container').append('svg')
+                .attr('width', width)
+                .attr('height', height)
+
+            const node = svg.append('g')
+                .selectAll('circle')
+                .data(nodes)
+                .join('circle')
+                .attr('r', 2)
+                .attr('fill', d => d.color)
+
+
+            const simulation = d3.forceSimulation(nodes)
+                .on('tick', tick) // tick is a function that tells the simulation what to animate as the the view refreshes
+                .force("collide", d3.forceCollide().radius(d => 1 + d.r))
+                // .force("x", d3.forceX(center[0]))
+                .force("y", d3.forceY(center[1]))
+                .stop()
+
+            setTimeout(() => { //Wait for 2s to enlarge the r to what's defined in nodes
+                simulation.restart();
+                node.transition().attr("r", d => d.r);
+            }, 2000);
+
+            if (rescale) {
+                for (const node of nodes) {
+                    node.x = node.x * scale + center[0];
+                    node.y = node.y * scale + center[1];
+                }
+            }
+
+            function tick() {
+                node.attr("cx", d => d.x).attr("cy", d => d.y);
+            }
+
+            tick()
+
+        }
+
+
+
+        const createNotes = (n) => {
+            const getColor = d3.scaleSequential(d3.interpolateTurbo).domain([0, n]);
+
+            return Array.from({ length: n }, (_, i) => ({
+                r: 2 + 10 * Math.random() ** 2,
+                color: getColor(i)
+            }))
+        }
+
+        const nodes = createNotes(100);
+        drawChart();
+    </script>
+</body>
+
+</html>
