@@ -1,2 +1,6 @@
 # Ignore macOS specific files
 .DS_Store
+
+images/_original
+scripts/articlemeta.yaml
+scripts/convertYamlToJson.js
