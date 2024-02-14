@@ -2,5 +2,9 @@
 .DS_Store
 
 images/_original
-scripts/articlemeta.yaml
+scripts/projectmeta.yaml
 scripts/convertYamlToJson.js
+
+node_modules
+package-lock.json
+package.json
