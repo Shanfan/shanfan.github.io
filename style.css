@@ -1,3 +1,7 @@
+:root {
+    --gutter: 2rem;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -17,12 +21,16 @@ img {
     max-width: 100%;
 }
 
+nav {
+    padding: var(--gutter);
+}
+
 .projects-wrapper {
     display: grid;
-    gap: 2rem;
+    gap: var(--gutter);
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     background-color: #ededed;
-    padding: 2rem;
+    padding: var(--gutter);
 }
 
 .project-card {
@@ -60,6 +68,13 @@ img {
     background-color: #222;
     padding: 1px 4px;
     border-radius: 2px;
+}
+
+.tag-cloud {
+    font-size: 0.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
 }
 
 @media (min-width: 960px) {
