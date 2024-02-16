@@ -1,7 +1,20 @@
 import projectData from "./projectMeta.json" assert {type: 'json'}
 
 const wrapper = document.querySelector(".projects-wrapper")
+const tagCloud = document.querySelector(".tag-cloud")
 const tagCounts = {}
+const filterProject = (tag) => {
+    selectedTag = classifyPhrase(tag)
+    console.log(tag + " is clicked!")
+
+    //Add a Reset button
+}
+
+const showAllProject = () => {
+
+}
+
+const classifyPhrase = (string) => string.toLowerCase().replace(/,| /g, "-")
 
 projectData.forEach(d => {
     const card = document.createElement('a')
@@ -22,6 +35,7 @@ projectData.forEach(d => {
     tags.classList = ["tags"]
 
     d.tags.forEach(tag => {
+        card.classList.add(classifyPhrase(tag))
         const span = document.createElement('span')
         span.innerHTML = tag
         tags.appendChild(span)
@@ -37,8 +51,6 @@ const tagsAll = Object.keys(tagCounts).map(tag => {
     return { tag: tag, count: tagCounts[tag] }
 })
 
-const tagCloud = document.querySelector(".tag-cloud")
-
 tagsAll.forEach(t => {
     const tagBtn = document.createElement("button")
     tagBtn.innerHTML = t.tag + "(" + t.count + ")"
@@ -48,7 +60,4 @@ tagsAll.forEach(t => {
     tagCloud.appendChild(tagBtn)
 })
 
-const filterProject = (tag) => {
-    console.log(tag + " is clicked!")
-}
 
