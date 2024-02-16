@@ -34,12 +34,12 @@ nav {
 }
 
 .project-card {
+    max-width: 500px;
     background-color: #fff;
     border-radius: 10px;
     padding: 1rem;
     text-decoration: none;
     transition: all 0.2s;
-    height: auto;
 }
 
 .project-card h2 {
@@ -75,6 +75,10 @@ nav {
     display: flex;
     flex-wrap: wrap;
     gap: 1em;
+}
+
+.hidden {
+    display: none;
 }
 
 
