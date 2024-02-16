@@ -1,4 +1,4 @@
-import projectData from "./projectMeta.json" assert {type: 'json'}
+import projectData from "./projectMeta.js";
 
 const renderTagCloud = () => {
     const allProjectsBtn = document.createElement('button')
