@@ -40,6 +40,8 @@
         main {
             position: relative;
             flex-grow: 1;
+            display: flex;
+            align-items: center;
         }
 
         .scene,
@@ -47,7 +49,7 @@
             width: calc(100vw - 5rem);
             min-width: 500pt;
             max-width: 1200pt;
-            height: 100%;
+            height: min(100%, 100vmin);
         }
 
         .scene {
@@ -169,17 +171,16 @@
         const images = document.querySelectorAll('.image-holder img');
         gsap.set(images[0], { opacity: 1 })
         document.querySelectorAll('.frame').forEach((el, i) => {
-            if (i > 0) {
-                const tl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: el,
-                        scroller: '.scene',
-                        scrub: true,
-                        start: "top 80%",
-                        end: "bottom 20%",
-                    }
-                })
-
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: el,
+                    scroller: '.scene',
+                    scrub: true,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                }
+            })
+            if (i > 0 && i < 8) {
                 tl.to(images[i], {
                     keyframes: {
                         "0%": { opacity: 0 },

@@ -45,6 +45,7 @@ const renderProjects = (data) => {
         header.innerHTML = d.title
         blurb.innerHTML = d.description
         card.href = d.link
+        card.target = "_blank"
         card.classList = ["project-card"]
         card.appendChild(image)
         card.appendChild(header)
