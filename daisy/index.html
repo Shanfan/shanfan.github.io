@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>daisy</title>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        header,
+        footer {
+            margin: 1em;
+            text-align: center;
+        }
+
+        h1,
+        h2 {
+            font-weight: 200;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+        }
+
+        main {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .scene,
+        .image-holder {
+            width: calc(100vw - 5rem);
+            min-width: 500pt;
+            max-width: 1200pt;
+            height: 100%;
+        }
+
+        .scene {
+            position: relative;
+            overflow: auto;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            border: 1px solid #000;
+        }
+
+        .frame {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .frame-text {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 50%;
+            width: 40%;
+            font-size: 1rem;
+        }
+
+        .image-holder img {
+            position: absolute;
+            bottom: 0;
+            width: min(400pt, 70%);
+            height: auto;
+            max-height: 100%;
+            opacity: 0;
+        }
+
+        .image-holder {
+            position: absolute;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Start With A Daisy</h1>
+        <h2>An Interactive Visual Poem</h2>
+    </header>
+    <main>
+        <div class="image-holder">
+            <img src="./assets/1.jpg" />
+            <img src="./assets/2.jpg" />
+            <img src="./assets/3.jpg" />
+            <img src="./assets/4.jpg" />
+            <img src="./assets/5.jpg" />
+            <img src="./assets/6.jpg" />
+            <img src="./assets/7.jpg" />
+            <img src="./assets/8.jpg" />
+        </div>
+        <div class="scene">
+            <div class="frame">
+                <div class="frame-text">
+                    <p>Every project starts with you knowing one small thing</p>
+                </div>
+            </div>
+            <div class="frame">
+                <div class="frame-text">
+                    <p>...and doing it well</p>
+                </div>
+            </div>
+            <div class="frame">
+                <div class="frame-text">
+                    <p>Then you add another one</p>
+                </div>
+            </div>
+            <div class="frame">
+                <div class="frame-text">
+                    <p>You stack up more of the same</p>
+                </div>
+            </div>
+            <div class="frame">
+                <div class="frame-text">
+                    <p>Until it's time to introduce variations</p>
+                </div>
+            </div>
+            <div class="frame">
+                <div class="frame-text">
+                    <p>...and then you riff on the previous variation</p>
+                </div>
+            </div>
+            <div class="frame">
+                <div class="frame-text">
+                    <p>...until you have a bouquet.</p>
+                </div>
+            </div>
+            <div class="frame">
+                <div class="frame-text">
+                    <p>Here is a simple truth: When you can't help getting distraced by all the flowers in the whole
+                        world,
+                        remember, </p>
+                </div>
+            </div>
+            <div class="frame">
+                <div class="frame-text">
+                    <p>you gotta
+                        pluck
+                        that humble daisy first.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        Made with 💖 by Shanfan Huang | Source Code on <a
+            href="https://github.com/Shanfan/shanfan.github.io/tree/gh-page/daisy/">Github</a>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        const images = document.querySelectorAll('.image-holder img');
+        gsap.set(images[0], { opacity: 1 })
+        document.querySelectorAll('.frame').forEach((el, i) => {
+            if (i > 0) {
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: el,
+                        scroller: '.scene',
+                        scrub: true,
+                        start: "top 80%",
+                        end: "bottom 20%",
+                    }
+                })
+
+                tl.to(images[i], {
+                    keyframes: {
+                        "0%": { opacity: 0 },
+                        "20%": { opacity: 1 },
+                        "80%": { opacity: 1 },
+                        "100%": { opacity: 0 }
+                    }
+                })
+
+            }
+        })
+    </script>
+</body>
+
+</html>
