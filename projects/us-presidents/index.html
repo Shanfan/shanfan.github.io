@@ -26,14 +26,14 @@
 
         #nationTime {
             margin: 0 auto;
-            width: 800px;
+            /* width: 800px; */
             position: relative;
             overflow: auto;
             background: var(--bg-deepblue);
         }
 
         #presidentTimeline {
-            height: 600px;
+            /* height: 600px; */
         }
 
         .president {
@@ -189,7 +189,7 @@
         }
 
         async function drawPresidentGraph() {
-            const presidentsData = await d3.csv('__presidents.csv')
+            const presidentsData = await d3.csv('./assets/_presidents.csv')
             const presidentHeight = 122 // ideally this should be picked from the built component
             const fullHeight = presidentsData.length * presidentHeight
 
