@@ -20,6 +20,7 @@ body {
     font-weight: 300;
 }
 
+h1,
 h2 {
     font-weight: 400;
     text-transform: uppercase;
@@ -27,7 +28,7 @@ h2 {
 
 img {
     display: block;
-    max-width: 100%;
+    width: 100%;
 }
 
 nav {
@@ -47,7 +48,7 @@ a {
 .projects-wrapper {
     display: grid;
     gap: var(--gutter);
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     background-color: #ededed;
     padding: var(--gutter);
 }
