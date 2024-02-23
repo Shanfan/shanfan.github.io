@@ -3,14 +3,17 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>daisy</title>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Start with a Daisy</title>
     <style>
         body {
-            width: 100vw;
-            height: 100vh;
+            width: 100dvw;
+            height: 100dvh;
             margin: 0;
             padding: 0;
             font-family: 'Courier New', Courier, monospace;
+            font-size: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -46,9 +49,8 @@
 
         .scene,
         .image-holder {
-            width: calc(100vw - 5rem);
-            min-width: 500pt;
-            max-width: 1200pt;
+            width: calc(100vw - 2rem);
+            max-width: 960px;
             height: min(100%, 100vmin);
         }
 
@@ -72,13 +74,12 @@
             transform: translateY(-50%);
             left: 50%;
             width: 40%;
-            font-size: 1rem;
         }
 
         .image-holder img {
             position: absolute;
             bottom: 0;
-            width: min(400pt, 70%);
+            width: min(600px, 70%);
             height: auto;
             max-height: 100%;
             opacity: 0;
@@ -87,6 +88,26 @@
         .image-holder {
             position: absolute;
             display: block;
+        }
+
+        @media (orientation: portrait) {
+
+            .scene,
+            .image-holder {
+                height: 100%;
+            }
+
+            .image-holder img {
+                width: 100%;
+            }
+
+            .frame-text {
+                padding: 2em;
+                left: 0;
+                top: 30%;
+                width: auto;
+                transform: none;
+            }
         }
     </style>
 </head>
