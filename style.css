@@ -41,6 +41,10 @@ a {
     text-decoration: none;
 }
 
+nav p {
+    line-height: 1.5em;
+}
+
 .responsive-sidebar {
     display: block;
 }
@@ -67,7 +71,7 @@ a {
 }
 
 .project-card p {
-    color: #666;
+    color: #888;
 }
 
 .project-card:hover {
@@ -98,7 +102,8 @@ a {
 }
 
 .tag-cloud button {
-    background-color: eee;
+    padding: 4px 8px;
+    background-color: #eee;
     border: none;
     transition: all 0.3s;
 }
