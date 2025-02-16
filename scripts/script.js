@@ -35,15 +35,27 @@ const classifyPhrase = (string) => string.toLowerCase().replace(/,| /g, "-")
 
 const renderProjects = (data) => {
     data.forEach(d => {
+
+        // Initialize a flag for toggling between opening and closing quotes.
+        let isOpening = true;
+        // Replace each straight quote with the appropriate curly quote.
+        const formattedDescription = d.description.replace(/"/g, () => {
+            const quote = isOpening ? '“' : '”';
+            isOpening = !isOpening;
+            return quote;
+        });
+
         const card = document.createElement('a')
         const image = document.createElement('img')
         const header = document.createElement('h2')
         const blurb = document.createElement('p')
         const tags = document.createElement('div')
 
+        blurb.innerHTML = formattedDescription;
+
         image.src = "/images" + d.imageUrl
         header.innerHTML = d.title
-        blurb.innerHTML = d.description
+
         card.href = d.link
         card.target = "_blank"
         card.classList = ["project-card"]

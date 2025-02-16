@@ -52,13 +52,14 @@ nav p {
 .projects-wrapper {
     display: grid;
     gap: var(--gutter);
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: 1fr;
     background-color: #ededed;
     padding: var(--gutter);
+    min-height: 100vh;
 }
 
 .project-card {
-    max-width: 400px;
+    min-width: 270px;
     background-color: #fff;
     border-radius: 10px;
     padding: 1rem;
@@ -121,5 +122,9 @@ nav p {
     .responsive-sidebar {
         display: grid;
         grid-template-columns: 300px 1fr;
+    }
+
+    .projects-wrapper {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
